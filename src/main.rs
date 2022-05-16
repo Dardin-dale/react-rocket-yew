@@ -1,11 +1,11 @@
-#[macro_use] extern crate rocket;
+#[macro_use]
+extern crate rocket;
 
-#[get("/")]
-fn index() -> &'static str {
-    "Hello, world!"
-}
+use rocket::fs::{FileServer, relative};
+
 
 #[launch]
-fn rocket() -> _ {
-    rocket::build().mount("/", routes![index])
+fn rocket() -> rocket::Rocket<rocket::Build> {
+    rocket::build()
+        .mount("/", FileServer::from(relative!("client\\public")).rank(1))
 }
